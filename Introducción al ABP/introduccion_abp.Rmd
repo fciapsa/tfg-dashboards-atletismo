@@ -1,0 +1,198 @@
+---
+title: "Introducción al ABP"
+author: "Flavius Abel Ciapsa"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    social: menu
+    source: embed
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(readr)
+library(DT)
+library(dygraphs)
+library(eeptools) #age_calc
+
+SEXO_H_COLOR <- "#1b909a"
+SEXO_M_COLOR <- "#7900f1"
+
+ID_ATLETA <- 781293465
+
+info_personal <- read_csv("datos/info_personal.csv", 
+    col_types = cols(fecha_nacimiento = col_date(format = "%d-%m-%Y")))
+info_personal <- info_personal[info_personal$id == ID_ATLETA,]
+
+muestras_sangre <- read_csv("datos/muestras_sangre.csv", 
+    col_types = cols(fecha = col_date(format = "%d-%m-%Y")))
+muestras_sangre <- muestras_sangre[muestras_sangre$id == ID_ATLETA,]
+muestras_sangre <- subset(muestras_sangre, select= -id)
+
+altitudes <- read_csv("datos/altitudes.csv", 
+    col_types = cols(fecha = col_date(format = "%d-%m-%Y")))
+altitudes <- altitudes[altitudes$id == ID_ATLETA,]
+altitudes <- subset(altitudes, select= -id)
+
+# Código JavaScript necesario para dar formato a las fechas mostradas en la leyenda de cada punto
+dateLegendFormatter <- "function formatValue(v) {
+  const fechaObj = new Date(v);
+  
+  const dia = String(fechaObj.getDate()).padStart(2, '0');
+  const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
+  const anyo = fechaObj.getFullYear();
+  
+  return `${dia}-${mes}-${anyo}`;}"
+```
+
+# Metodología {.storyboard}
+
+### Pasaporte Biológico del Atleta (ABP)
+
+La integridad en los deportes de élite se ve afectada por la disponibilidad cada vez mayor de sustancias prohibidas que poseen una composición indistinguible o idéntica a aquellas producidas por el cuerpo humano de forma natural. En sus inicios, el enfoque de los controles antidopaje consistía en analizar muestras de orina o de sangre en busca de sustancias no producidas naturalmente por el cuerpo. Si bien resultaron muy efectivos en la lucha contra el uso de dichas sustancias, los avances en biotecnología exigen un nuevo enfoque que pueda hacer frente a las sustancias estructuralmente idénticas a las naturales [1].
+
+Para ello, la World Anti-Doping Agency (WADA) desarrolló un programa conocido como **Pasaporte Biológico del Atleta (ABP)**, y el atletismo lo ha adoptado a través de World Athletics desde 2009. Se trata de un registro electrónico que recoge la evolución de diversos datos biológicos del atleta a lo largo del tiempo. Las variables monitorizadas reciben el nombre de *biomarcadores* y permiten detectar de manera indirecta el uso de sustancias ilegales, gracias a las anomalías que el dopaje provoca en sus valores [2].
+
+En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el esteroideo y el endocrinológico [1]. El objetivo de este *dashboard* es introducir los principales elementos que componen el **módulo hematológico** y las bases de su utilidad como herramienta para detectar posibles casos de dopaje.
+
+***
+
+**Bibliografía**
+
+[1] Sottas, P. E., Robinson, N., Rabin, O., & Saugy, M. (2011). The athlete biological passport. Clinical chemistry, 57(7), 969.
+
+[2] Athletics Integrity Unit. (2025) Athlete Biological Passport. https://www.athleticsintegrity.org/knowledge-centre/tools-tips-and-guidelines/test
+
+[3] Sottas, P. E., & Vernec, A. (2012). Current Implementation And Future of The Athlete Biological Passport. Bioanalysis, 4(13), 1645–1652.
+
+[4] Gore, C. J., Parisotto, R., Ashenden, M. J., Stray-Gundersen, J., Sharpe, K., Hopkins, W., … Hahn, A. G. (2003). Second-generation blood tests to detect erythropoietin abuse by athletes. Haematologica, 88(3), 333–344.
+
+[5] Sharpe, K., Hopkins, W., Emslie, K. R., Howe, C., Trout, G. J., Kazlauskas, R., … Hahn, A. G. (2002). Development of reference ranges in elite athletes for markers of altered erythropoiesis. Haematologica, 87(12), 1248–1257.
+
+### Muestras de sangre
+
+```{r}
+datatable(muestras_sangre, options = list(
+  bPaginate = FALSE
+))
+```
+
+***
+
+Los atletas incluidos en el programa ABP pueden ser requeridos en cualquier momento para la extracción de unas **muestras de sangre**. Estas muestras son la fuente de datos del módulo hematológico, que recoge los valores obtenidos durante su análisis para cada uno de los biomarcadores que podrían resultar indicativos del uso de sustancias prohibidas.
+
+Algunos de los biomarcadores de mayor importancia son la concentración de hemoglobina (*hb* o *hgb*) y la proporción de glóbulos rojos inmaduros o reticulocitos (*ret*).
+
+En ciertas ocasiones las muestras pueden quedar invalidadas debido a desviaciones de los protocolos estandarizados, desarrolados para evitar cualquier tipo de variabilidad de carácter analítico [3].
+
+### Perfiles longitudinales
+
+```{r}
+#TODO: Mejorar la obtención de límites de ejemplo
+muestras_sangre$hb_sup <- muestras_sangre$hb + 2
+muestras_sangre$hb_inf <- muestras_sangre$hb - 2
+
+dygraph(muestras_sangre[,c("fecha","hb", "hb_sup", "hb_inf")], ylab = "Hemoglobina (g/dl)") %>%
+  dyOptions(axisLineWidth = 1.5) %>%
+  dySeries("hb", strokeWidth = 2, color = "red") %>%
+  dySeries("hb_sup", strokeWidth = 2, color = "black", label = "lím sup", strokePattern = "dashed") %>%
+  dySeries("hb_inf", strokeWidth = 2, color = "grey", "lím inf", strokePattern = "dashed") %>%
+  dyAxis("x", rangePad = 15, valueFormatter = JS(dateLegendFormatter))
+```
+
+***
+
+Los distintos valores obtenidos para un biomarcador, por ejemplo la concentración de hemoglobina, tras analizar sucesivas muestras de sangre a lo largo del tiempo permiten detectar las anomalías que pueden ser indicativas de dopaje u otras circunstancias excepcionales como una enfermedad.
+
+Los valores recogidos se introducen en un modelo estadístico que hace uso de un algoritmo que tiene en cuenta tanto la variabilidad de cada biomarcador dentro de la población general como los factores individuales (sexo, etnia, edad, altitud, ...). Este modelo proporciona **límites superior e inferior** personalizados para cada atleta, asumiendo condiciones fisiológicas normales, por lo que se considera anómalo cualquier valor fuera de este rango [3].
+
+### Marcadores multiparamétricos
+
+```{r}
+#El escalado por 10 del valor de hb se debe a un cambio de unidades
+muestras_sangre$off_score = 10*muestras_sangre$hb - 60*sqrt(muestras_sangre$ret)
+#TODO: Mejorar la obtención de límites de ejemplo
+muestras_sangre$off_score_sup = muestras_sangre$off_score + 8
+muestras_sangre$off_score_inf = muestras_sangre$off_score - 10
+
+dygraph(muestras_sangre[,c("fecha","off_score", "off_score_sup", "off_score_inf")],
+        ylab = "OFF-score") %>%
+  dyOptions(axisLineWidth = 1.5) %>%
+  dySeries("off_score", strokeWidth = 2, color = "purple", label = "OFF-score") %>%
+  dySeries("off_score_sup", strokeWidth = 2, color = "black", label = "lím sup", strokePattern = "dashed") %>%
+  dySeries("off_score_inf", strokeWidth = 2, color = "grey", "lím inf", strokePattern = "dashed") %>%
+  dyAxis("x", rangePad = 15, valueFormatter = JS(dateLegendFormatter))
+```
+
+***
+
+Un paso que va más allá de considerar solamente biomarcadores individuales consiste en monitorizar valores derivados de combinar varios de ellos. Un ejemplo de esto es el valor **OFF-score** que se obtiene a partir de una combinación lineal de *hb* (concentración de hemoglobina en g/L) y *ret* (proporción de reticulocitos): $$\text{OFF-score} = hb - 60*\sqrt{ret}$$
+
+El objetivo con el que se seleccionan estos nuevos valores a monitorizar como parte del ABP es que ofrecen una mayor sensibilidad, es decir, el porcentaje de personas que realmente utilizan sustancias prohibidas detectado por el modelo es mayor. Al mismo tiempo, mantienen un buen balance en cuanto a la especificidad, sin incrementar notablemente la cantidad de falsos positivos [4].
+
+# Factores heterogéneos
+
+## Sexo y origen étnico
+
+### Sexo
+
+```{r}
+sexo <- info_personal$sexo
+valueBox(sexo,
+         icon = "fa-venus-mars",
+         color = ifelse(sexo == 'H', SEXO_H_COLOR, SEXO_M_COLOR))
+```
+
+### Origen étnico
+
+```{r}
+etnia <- info_personal$origen_etnico
+valueBox(etnia,
+         icon = "ion-ios-world")
+```
+
+## Edad y tipo de deporte
+
+### Edad
+
+```{r}
+edad <- trunc(age_calc(info_personal$fecha_nacimiento, units='years'))
+valueBox(edad,
+         icon = "fa-calendar-day")
+```
+
+### Tipo de deporte
+
+```{r}
+tipo_deporte <- info_personal$tipo_deporte
+valueBox(tipo_deporte,
+         icon = "ion-ios-speedometer")
+```
+
+## Descripción factores heterogéneos
+
+### Texto descriptivo {.no-title}
+
+El ABP es una herramienta útil para detectar posibles casos de dopaje gracias a que la variabilidad de los valores de los biomarcadores es muy limitada para un individuo determinado. Sin embargo, la **variabilidad** es mucho mayor **entre individuos diferentes**, lo cual hace necesario que en el modelo estadístico se tengan en cuenta los principales factores que provocan esa heterogeneidad.
+
+Entre estos factores se encuentran el sexo, la edad, el origen étnico (genotipo) y tipo de deporte practicado (resistencia o no resistencia). Como ejemplo, una de las mediciones cuyos valores se ven influidos por el sexo es el hematocrito (porcentaje del volumen total de sangre representado por los glóbulos rojos), que presenta un valor medio más elevado en hombres que en mujeres [5].
+
+# Altitud
+
+### Gráfico altitudes {.no-title}
+
+```{r}
+dygraph(altitudes[,c("fecha","altitud")], main = "Cambios de altitud", ylab = "Altitud (m)") %>%
+  dyOptions(stepPlot = TRUE, axisLineWidth = 1.5, fillAlpha = 0.25) %>%
+  dySeries("altitud", strokeWidth = 2, fillGraph = TRUE, color = "#00008B") %>%
+  dyAxis("x", rangePad = 15, valueFormatter = JS(dateLegendFormatter)) %>%
+  dyShading(from = 0, to = 610, color = "#baffc9", axis = "y") %>%
+  dyShading(from = 610, to = 1730, color = "#ffffba", axis = "y") %>%
+  dyShading(from = 1730, to = 8848, color = "#ffdfba", axis = "y")
+```
+
+### Descripción de los cambios de altitud {.no-title data-width=200}
+
+La altitud es el factor ambiental que tiene el efecto más consistente sobre los valores sanguíneos a partir de los cuales se definen los biomarcadores de interés para el ABP [5]. Por ello, resulta indispensable mantener un histórico de las altitudes de residencia o de estancia temporal de los atletas a la hora de contextualizar la interpretación de los resultados de las muestras de sangre. Su efecto es especialmente notable por encima de ~1730 m.
+
+La residencia a altitudes elevadas es acompañada por hematocritos (porcentaje del volumen total de sangre representado por los glóbulos rojos) más elevados que al residir cerca del nivel del mar. Además, al desplazarse de altitudes bajas a otras más elevadas se produce una disminución aguda del volumen plasmático de la sangre (su parte líquida), por lo que una métrica como el hematocrito evidentemente se ve afectada [5].
