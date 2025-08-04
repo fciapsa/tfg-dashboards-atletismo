@@ -45,17 +45,17 @@ dateLegendFormatter <- "function formatValue(v) {
   return `${dia}-${mes}-${anyo}`;}"
 ```
 
-# Metodología {.storyboard}
+# Motivación
 
-### Pasaporte Biológico del Atleta (ABP)
+### Introducción {.no-title}
 
-La integridad en los deportes de élite se ve afectada por la disponibilidad cada vez mayor de sustancias prohibidas que poseen una composición indistinguible o idéntica a aquellas producidas por el cuerpo humano de forma natural. En sus inicios, el enfoque de los controles antidopaje consistía en analizar muestras de orina o de sangre en busca de sustancias no producidas naturalmente por el cuerpo. Si bien resultaron muy efectivos en la lucha contra el uso de dichas sustancias, los avances en biotecnología exigen un nuevo enfoque que pueda hacer frente a las sustancias estructuralmente idénticas a las naturales [1].
+La integridad en los deportes de élite se ve afectada por la disponibilidad cada vez mayor de sustancias prohibidas que poseen una composición indistinguible o idéntica a aquellas producidas por el cuerpo humano de forma natural. En sus inicios, el enfoque de los controles antidopaje consistía en analizar muestras de orina o de sangre en busca de sustancias que no son producidas naturalmente por el cuerpo. Si bien estos controles resultaron muy efectivos en la lucha contra el uso de dichas sustancias, los avances en biotecnología exigen un enfoque nuevo que pueda hacer frente a las sustancias con una estructura idéntica a las naturales [1].
 
-Para ello, la World Anti-Doping Agency (WADA) desarrolló un programa conocido como **Pasaporte Biológico del Atleta (ABP)**, y el atletismo lo ha adoptado a través de World Athletics desde 2009. Se trata de un registro electrónico que recoge la evolución de diversos datos biológicos del atleta a lo largo del tiempo. Las variables monitorizadas reciben el nombre de *biomarcadores* y permiten detectar de manera indirecta el uso de sustancias ilegales, gracias a las anomalías que el dopaje provoca en sus valores [2].
+Para ello, la World Anti-Doping Agency (WADA) desarrolló un programa conocido como **Pasaporte Biológico del Atleta (ABP)**, y en el atletismo World Athletics lo ha implementado desde 2009. Se trata de un registro electrónico que recoge la evolución de diversos datos biológicos del atleta a lo largo del tiempo. Las variables monitorizadas reciben el nombre de *biomarcadores* y permiten detectar de manera indirecta el uso de sustancias ilegales, gracias a las anomalías que el dopaje provoca en sus valores [2].
 
-En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el esteroideo y el endocrinológico [1]. El objetivo de este *dashboard* es introducir los principales elementos que componen el **módulo hematológico** y las bases de su utilidad como herramienta para detectar posibles casos de dopaje.
+En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el esteroideo y el endocrinológico [1]. El objetivo de esta aplicación es presentar los principales elementos que componen el **módulo hematológico** y los fundamentos de su utilidad como herramienta para detectar posibles casos de dopaje.
 
-***
+### **Bibliografía** {.no-title data-width=250}
 
 **Bibliografía**
 
@@ -68,6 +68,8 @@ En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el
 [4] Gore, C. J., Parisotto, R., Ashenden, M. J., Stray-Gundersen, J., Sharpe, K., Hopkins, W., … Hahn, A. G. (2003). Second-generation blood tests to detect erythropoietin abuse by athletes. Haematologica, 88(3), 333–344.
 
 [5] Sharpe, K., Hopkins, W., Emslie, K. R., Howe, C., Trout, G. J., Kazlauskas, R., … Hahn, A. G. (2002). Development of reference ranges in elite athletes for markers of altered erythropoiesis. Haematologica, 87(12), 1248–1257.
+
+# Metodología {.storyboard}
 
 ### Muestras de sangre
 
@@ -83,7 +85,7 @@ Los atletas incluidos en el programa ABP pueden ser requeridos en cualquier mome
 
 Algunos de los biomarcadores de mayor importancia son la concentración de hemoglobina (*hb* o *hgb*) y la proporción de glóbulos rojos inmaduros o reticulocitos (*ret*).
 
-En ciertas ocasiones las muestras pueden quedar invalidadas debido a desviaciones de los protocolos estandarizados, desarrolados para evitar cualquier tipo de variabilidad de carácter analítico [3].
+En algunas ocasiones las muestras pueden quedar invalidadas debido a desviaciones de los protocolos estandarizados, desarrollados para evitar diferencias en los resultados a causa de diferencias en el procedimiento de análisis [3].
 
 ### Perfiles longitudinales
 
@@ -102,9 +104,11 @@ dygraph(muestras_sangre[,c("fecha","hb", "hb_sup", "hb_inf")], ylab = "Hemoglobi
 
 ***
 
-Los distintos valores obtenidos para un biomarcador, por ejemplo la concentración de hemoglobina, tras analizar sucesivas muestras de sangre a lo largo del tiempo permiten detectar las anomalías que pueden ser indicativas de dopaje u otras circunstancias excepcionales como una enfermedad.
+Los distintos valores obtenidos para un biomarcador, tras analizar sucesivas muestras de sangre, permiten detectar las anomalías que pueden ser indicativas de dopaje.
 
-Los valores recogidos se introducen en un modelo estadístico que hace uso de un algoritmo que tiene en cuenta tanto la variabilidad de cada biomarcador dentro de la población general como los factores individuales (sexo, etnia, edad, altitud, ...). Este modelo proporciona **límites superior e inferior** personalizados para cada atleta, asumiendo condiciones fisiológicas normales, por lo que se considera anómalo cualquier valor fuera de este rango [3].
+Los valores recogidos se introducen en un modelo estadístico que tiene en cuenta tanto la variabilidad de cada biomarcador dentro de la población general como los factores individuales (sexo, etnia, edad, altitud, ...). Este modelo proporciona **límites superior e inferior** personalizados para cada atleta, asumiendo condiciones fisiológicas normales, por lo que se considera anómalo cualquier valor fuera de este rango [3].
+
+Es importante tener en cuenta que la detección de una anomalía no conlleva directamente la sanción del atleta, sino que su caso es analizado ante un panel de expertos [2]. Recae sobre el atleta demostrar que existe alguna causa justificada, como puede ser una enfermedad o los efectos de un fármaco.
 
 ### Marcadores multiparamétricos
 
@@ -126,9 +130,9 @@ dygraph(muestras_sangre[,c("fecha","off_score", "off_score_sup", "off_score_inf"
 
 ***
 
-Un paso que va más allá de considerar solamente biomarcadores individuales consiste en monitorizar valores derivados de combinar varios de ellos. Un ejemplo de esto es el valor **OFF-score** que se obtiene a partir de una combinación lineal de *hb* (concentración de hemoglobina en g/L) y *ret* (proporción de reticulocitos): $$\text{OFF-score} = hb - 60*\sqrt{ret}$$
+Un paso que va más allá de considerar solamente biomarcadores individuales consiste en monitorizar valores que se obtienen combinando varios de ellos. Un ejemplo de esto es el valor **OFF-score**, que se obtiene a partir de una combinación lineal de *hb* (concentración de hemoglobina, en g/L) y *ret* (proporción de reticulocitos): $$\text{OFF-score} = hb - 60*\sqrt{ret}$$
 
-El objetivo con el que se seleccionan estos nuevos valores a monitorizar como parte del ABP es que ofrecen una mayor sensibilidad, es decir, el porcentaje de personas que realmente utilizan sustancias prohibidas detectado por el modelo es mayor. Al mismo tiempo, mantienen un buen balance en cuanto a la especificidad, sin incrementar notablemente la cantidad de falsos positivos [4].
+El motivo por el que se añaden estos nuevos valores para monitorizarlos como parte del ABP es que mejoran la *sensibilidad*, es decir, el porcentaje de personas que realmente utilizan sustancias prohibidas detectado por el modelo es mayor. Al mismo tiempo mantienen un buen balance en cuanto a la *especificidad*, lo cual significa que no provocan un aumento considerable en la cantidad de falsos positivos [4].
 
 # Factores heterogéneos
 
@@ -173,9 +177,9 @@ valueBox(tipo_deporte,
 
 ### Texto descriptivo {.no-title}
 
-El ABP es una herramienta útil para detectar posibles casos de dopaje gracias a que la variabilidad de los valores de los biomarcadores es muy limitada para un individuo determinado. Sin embargo, la **variabilidad** es mucho mayor **entre individuos diferentes**, lo cual hace necesario que en el modelo estadístico se tengan en cuenta los principales factores que provocan esa heterogeneidad.
+El ABP es una herramienta útil para detectar posibles casos de dopaje gracias a que la variabilidad de los valores de los biomarcadores es muy limitada para un individuo concreto. Sin embargo, la **variabilidad** es mucho mayor **entre individuos diferentes**, lo cual hace necesario que en el modelo estadístico se tengan en cuenta los principales factores que provocan esa heterogeneidad.
 
-Entre estos factores se encuentran el sexo, la edad, el origen étnico (genotipo) y tipo de deporte practicado (resistencia o no resistencia). Como ejemplo, una de las mediciones cuyos valores se ven influidos por el sexo es el hematocrito (porcentaje del volumen total de sangre representado por los glóbulos rojos), que presenta un valor medio más elevado en hombres que en mujeres [5].
+Entre estos factores se encuentran el sexo, la edad, el origen étnico (genotipo) y el tipo de deporte practicado (resistencia o no resistencia). Como ejemplo, una de las variables cuyos valores se ven influidos por el sexo es el hematocrito (porcentaje del volumen total de sangre representado por los glóbulos rojos), que presenta un valor medio más elevado en hombres que en mujeres [5].
 
 # Altitud
 
@@ -193,6 +197,6 @@ dygraph(altitudes[,c("fecha","altitud")], main = "Cambios de altitud", ylab = "A
 
 ### Descripción de los cambios de altitud {.no-title data-width=200}
 
-La altitud es el factor ambiental que tiene el efecto más consistente sobre los valores sanguíneos a partir de los cuales se definen los biomarcadores de interés para el ABP [5]. Por ello, resulta indispensable mantener un histórico de las altitudes de residencia o de estancia temporal de los atletas a la hora de contextualizar la interpretación de los resultados de las muestras de sangre. Su efecto es especialmente notable por encima de ~1730 m.
+La altitud es el factor ambiental que tiene el efecto más notable sobre los valores de los biomarcadores sanguíneos de interés para el ABP [5]. Por ello, resulta indispensable mantener un histórico de las altitudes de residencia o de estancia temporal de los atletas a la hora de poner en contexto la interpretación de los resultados de las muestras de sangre. Su efecto es especialmente notable por encima de ~1730 m.
 
 La residencia a altitudes elevadas es acompañada por hematocritos (porcentaje del volumen total de sangre representado por los glóbulos rojos) más elevados que al residir cerca del nivel del mar. Además, al desplazarse de altitudes bajas a otras más elevadas se produce una disminución aguda del volumen plasmático de la sangre (su parte líquida), por lo que una métrica como el hematocrito evidentemente se ve afectada [5].
