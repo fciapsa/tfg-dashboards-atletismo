@@ -15,8 +15,10 @@ library(DT)
 library(dygraphs)
 library(eeptools) #age_calc
 
-SEXO_H_COLOR <- "#1b909a"
-SEXO_M_COLOR <- "#7900f1"
+SEXO_H_COLOR <- "#1B909A"
+SEXO_M_COLOR <- "#7900F1"
+MUESTRA_VALIDA_COLOR <- '#9AFF9A'
+MUESTRA_INVALIDA_COLOR <- '#FA8072'
 
 ID_ATLETA <- 781293465
 
@@ -74,9 +76,15 @@ En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el
 ### Muestras de sangre
 
 ```{r}
-datatable(muestras_sangre, options = list(
+dt_muestras <- datatable(muestras_sangre, options = list(
   bPaginate = FALSE
-))
+)) %>% formatStyle(
+  'validez',
+  target = 'row',
+  backgroundColor = styleEqual(c('SI', 'NO'),
+                               c(MUESTRA_VALIDA_COLOR, MUESTRA_INVALIDA_COLOR))
+)
+dt_muestras
 ```
 
 ***
