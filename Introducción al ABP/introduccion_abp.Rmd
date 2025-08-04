@@ -98,9 +98,21 @@ En algunas ocasiones las muestras pueden quedar invalidadas debido a desviacione
 ### Perfiles longitudinales
 
 ```{r}
-#TODO: Mejorar la obtención de límites de ejemplo
-muestras_sangre$hb_sup <- muestras_sangre$hb + 2
-muestras_sangre$hb_inf <- muestras_sangre$hb - 2
+HB_OFFSET <- 2.5
+
+muestras_sangre[1, 'hb_sup'] <- muestras_sangre[1, 'hb'] + HB_OFFSET
+muestras_sangre[1, 'hb_inf'] <- muestras_sangre[1, 'hb'] - HB_OFFSET
+
+for(i in 2:nrow(muestras_sangre)) {
+  dif_hb <- abs(muestras_sangre[i-1, 'hb'] - muestras_sangre[i, 'hb'])
+  
+  muestras_sangre[i, 'hb_sup'] <- muestras_sangre[i-1, 'hb'] +
+    0.25*HB_OFFSET + pmin(0.75*HB_OFFSET, dif_hb)
+  
+  muestras_sangre[i, 'hb_inf'] <- muestras_sangre[i-1, 'hb'] -
+    0.25*HB_OFFSET - pmin(0.75*HB_OFFSET, dif_hb)
+}
+
 
 dygraph(muestras_sangre[,c("fecha","hb", "hb_sup", "hb_inf")], ylab = "Hemoglobina (g/dl)") %>%
   dyOptions(axisLineWidth = 1.5) %>%
@@ -123,9 +135,21 @@ Es importante tener en cuenta que la detección de una anomalía no conlleva dir
 ```{r}
 #El escalado por 10 del valor de hb se debe a un cambio de unidades
 muestras_sangre$off_score = 10*muestras_sangre$hb - 60*sqrt(muestras_sangre$ret)
-#TODO: Mejorar la obtención de límites de ejemplo
-muestras_sangre$off_score_sup = muestras_sangre$off_score + 8
-muestras_sangre$off_score_inf = muestras_sangre$off_score - 10
+
+OFF_SCORE_OFFSET <- 27.5
+
+muestras_sangre[1, 'off_score_sup'] <- muestras_sangre[1, 'off_score'] + OFF_SCORE_OFFSET
+muestras_sangre[1, 'off_score_inf'] <- muestras_sangre[1, 'off_score'] - OFF_SCORE_OFFSET
+
+for(i in 2:nrow(muestras_sangre)) {
+  dif_off_score <- abs(muestras_sangre[i-1, 'off_score'] - muestras_sangre[i, 'off_score'])
+  
+  muestras_sangre[i, 'off_score_sup'] <- muestras_sangre[i-1, 'off_score'] +
+    0.25*OFF_SCORE_OFFSET + pmin(0.75*OFF_SCORE_OFFSET, dif_off_score)
+  
+  muestras_sangre[i, 'off_score_inf'] <- muestras_sangre[i-1, 'off_score'] -
+    0.25*OFF_SCORE_OFFSET - pmin(0.75*OFF_SCORE_OFFSET, dif_off_score)
+}
 
 dygraph(muestras_sangre[,c("fecha","off_score", "off_score_sup", "off_score_inf")],
         ylab = "OFF-score") %>%
