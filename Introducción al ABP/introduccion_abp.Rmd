@@ -20,19 +20,19 @@ SEXO_M_COLOR <- "#7900f1"
 
 ID_ATLETA <- 781293465
 
-info_personal <- read_csv("datos/info_personal.csv", 
+atletas <- read_csv("datos/atletas.csv", 
     col_types = cols(fecha_nacimiento = col_date(format = "%d-%m-%Y")))
-info_personal <- info_personal[info_personal$id == ID_ATLETA,]
+info_personal <- atletas[atletas$id == ID_ATLETA,]
 
 muestras_sangre <- read_csv("datos/muestras_sangre.csv", 
     col_types = cols(fecha = col_date(format = "%d-%m-%Y")))
-muestras_sangre <- muestras_sangre[muestras_sangre$id == ID_ATLETA,]
-muestras_sangre <- subset(muestras_sangre, select= -id)
+muestras_sangre <- muestras_sangre[muestras_sangre$id_atleta == ID_ATLETA,]
+muestras_sangre <- subset(muestras_sangre, select= -id_atleta)
 
-altitudes <- read_csv("datos/altitudes.csv", 
+altitudes <- read_csv("datos/registro_altitudes.csv", 
     col_types = cols(fecha = col_date(format = "%d-%m-%Y")))
-altitudes <- altitudes[altitudes$id == ID_ATLETA,]
-altitudes <- subset(altitudes, select= -id)
+altitudes <- altitudes[altitudes$id_atleta == ID_ATLETA,]
+altitudes <- subset(altitudes, select= -id_atleta)
 
 # Código JavaScript necesario para dar formato a las fechas mostradas en la leyenda de cada punto
 dateLegendFormatter <- "function formatValue(v) {
