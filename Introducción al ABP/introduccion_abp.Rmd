@@ -76,7 +76,9 @@ En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el
 ### Muestras de sangre
 
 ```{r}
-dt_muestras <- datatable(muestras_sangre, options = list(
+df_muestras <- muestras_sangre
+df_muestras$fecha <- format(df_muestras$fecha, "%d-%m-%Y")
+dt_muestras <- datatable(df_muestras, options = list(
   bPaginate = FALSE
 )) %>% formatStyle(
   'validez',
