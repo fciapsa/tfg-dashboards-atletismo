@@ -14,6 +14,7 @@ library(readr)
 library(DT)
 library(dygraphs)
 library(eeptools) #age_calc
+library(tibble)
 
 SEXO_H_COLOR <- "#1B909A"
 SEXO_M_COLOR <- "#7900F1"
@@ -77,9 +78,15 @@ En su propuesta completa, el ABP consiste de tres módulos: el hematológico, el
 
 ```{r}
 df_muestras <- muestras_sangre
-df_muestras$fecha <- format(df_muestras$fecha, "%d-%m-%Y")
+# Para poder ordenar por Date y también mostrar la fecha en formato %d-%m-%Y
+names(df_muestras)[names(df_muestras) == 'fecha'] <- 'fecha_ISO'
+df_muestras <- add_column(fecha = format(df_muestras$fecha_ISO, "%d-%m-%Y"),
+                          df_muestras, .after='fecha_ISO')
+
 dt_muestras <- datatable(df_muestras, options = list(
-  bPaginate = FALSE
+  bPaginate = FALSE,
+  columnDefs = list(list(orderData = 1, targets = 2),
+                    list(visible = FALSE, targets = 1))
 )) %>% formatStyle(
   'validez',
   target = 'row',
