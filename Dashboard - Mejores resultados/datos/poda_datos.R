@@ -24,4 +24,4 @@ df_podado <- df_podado[!is.na(df_podado$results_score), ]
 
 #Guardar el nuevo conjunto de datos
 write_csv(df_podado, "datos/csvs/world-athletics_all-time-top-lists_podado.csv",
-          na="", quote="none")
+          na="", quote="needed")
