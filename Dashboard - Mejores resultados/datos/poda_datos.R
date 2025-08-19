@@ -22,6 +22,11 @@ df_podado <- select(df_original, -all_of(cols_redudantes))
 # Descartar observaciones sin valor para results_score
 df_podado <- df_podado[!is.na(df_podado$results_score), ]
 
+# Algunas pruebas de marcha tienen múltiples etiquetas para la misma prueba. Las
+# unificamos en una sola.
+df_podado[df_podado$event_name == "5000-metres-race-walk", ]$event_name = "5-kilometres-race-walk"
+df_podado[df_podado$event_name == "20000-metres-race-walk", ]$event_name = "20-kilometres-race-walk"
+
 #Guardar el nuevo conjunto de datos
 write_csv(df_podado, "datos/csvs/world-athletics_all-time-top-lists_podado.csv",
           na="", quote="needed")
