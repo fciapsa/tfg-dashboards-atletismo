@@ -1,9 +1,12 @@
 library(shiny)
+library(leaflet)
+library(maps)
 library(bslib)
 library(readr)
 library(lubridate) #year()
 library(tidyverse) #slice_max()
 library(hash) #para definir un diccionario
+library(shinydashboard) #box()
 
 #Constantes
 ANYO_DATOS_MIN <- 1981
@@ -11,6 +14,7 @@ ANYO_DATOS_MAX <- 2023
 
 NOMBRE_CATEG_M <- "Masculina"
 NOMBRE_CATEG_F <- "Femenina"
+NOMBRE_CATEG_TODAS <- "Todas"
 
 #Diccionario de ids de outputs a nombres de pruebas
 output_a_prueba <- hash("m60" = "60-metres", "m100" = "100-metres",
@@ -272,12 +276,29 @@ ui <- navbarPage(
       )
     )
   ),
-  tabPanel("Mejores naciones")
+  tabPanel("Mejores países",
+    leafletOutput("mapa_paises", height = 500),
+    absolutePanel(top = 150, left = 20,
+      selectInput("temp_map", "Temporada", choices=ANYO_DATOS_MAX:ANYO_DATOS_MIN),
+      selectInput("categ_map", "Categoría",
+                  choices=c(NOMBRE_CATEG_TODAS, NOMBRE_CATEG_M, NOMBRE_CATEG_F))
+    ),
+    absolutePanel(top = 70, right = 20, width = 250,
+      box(width = 12, solidHeader = TRUE,
+        h3(textOutput("pais_selec"))
+      )
+    ),
+    absolutePanel(bottom = 30, right = 20, width = 250,
+      box(width = 12, solidHeader = TRUE,
+        h3("Top"),
+      )
+    )
+  )
 )
 
 server <- function(input, output, session) {
   #PESTAÑA POR PRUEBAS
-  
+
   #Conjunto de datos tras aplicar los inputs
   df_pr <- reactive({
     df_temp <- filtrarPorTemporada(df_todo, input$temp_pr)
@@ -291,6 +312,20 @@ server <- function(input, output, session) {
       if(nrow(df_temp) == 0) return("Sin datos")
       mejorMarca(df_temp)
     })
+  })
+  
+  #PESTAÑA MEJORES PAÍSES
+  
+  output$pais_selec <- renderText("TO DO")
+  
+  datos_mapa <- maps::map('world', plot = FALSE, fill = TRUE)
+  output$mapa_paises <- renderLeaflet({
+    leaflet(datos_mapa, options = leafletOptions(worldCopyJump = TRUE)) %>%
+    addProviderTiles(providers$Esri.WorldGrayCanvas,
+                     options = c(maxZoom = 6)) %>%
+    addPolygons() %>%
+    #Vista inicial del mapa
+    setView(lng = 40, lat = 15, zoom = 2)
   })
 }
 
