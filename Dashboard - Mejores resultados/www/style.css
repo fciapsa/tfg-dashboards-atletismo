@@ -1,0 +1,22 @@
+  #controles, #panel_pais_selec, #panel_top_paises {
+    opacity: 0.9;
+    background: #D0CFD4;
+    border-style: outset;
+    border-color: #000000;
+    border-width: 1px;
+    border-radius: 5px;
+  }
+  
+  #controles:hover, #panel_pais_selec:hover, #panel_top_paises:hover {
+    opacity: 1;
+  }
+
+  #controles {
+    padding: 5px;
+  }
+
+  #top_paises {
+    td {
+      text-align: center;
+    }
+  }
