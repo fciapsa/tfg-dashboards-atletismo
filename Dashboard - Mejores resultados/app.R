@@ -675,7 +675,11 @@ server <- function(input, output, session) {
       datos_mapa()$ID, datos_mapa()$puntos, ifelse(datos_mapa()$puntos == 1, "", "s")
     ) %>% lapply(htmltools::HTML)
     
-    paleta <- colorBin("YlOrRd", domain = datos_mapa()$puntos, bins = 10)
+    #Configurar la paleta. Hacemos depender la cantidad de colores del máximo de puntos
+    cantidad_colores <- max(datos_mapa()$puntos)
+    if (cantidad_colores >= 10)
+      cantidad_colores <- c(0,1,2,4,6,10,15,50) #límites de paso al siguiente color
+    paleta <- colorBin("OrRd", domain = datos_mapa()$puntos, bins = cantidad_colores)
     
     leaflet(datos_mapa(), options = leafletOptions(worldCopyJump = TRUE)) %>%
       addProviderTiles(providers$Esri.WorldGrayCanvas,
