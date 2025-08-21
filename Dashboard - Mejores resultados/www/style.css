@@ -1,3 +1,11 @@
+  html body #contenedor_mapa {
+    position: absolute;
+    top: 8%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
   #controles, #panel_pais_selec, #panel_top_paises {
     opacity: 0.9;
     background: #D0CFD4;

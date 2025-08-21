@@ -347,6 +347,8 @@ generarTextoPaisSelec <- function(df, id) {
 mapa_base <- maps::map('world', plot = FALSE, fill = TRUE)
 #Transformar al formato esperado por leaflet
 mapa_base <- st_as_sf(mapa_base)
+#Cambiar el CRS para evitar warning por utilizar un elipsoide antiguo
+mapa_base <- st_transform(mapa_base, crs = 4326)
 #Transformar los ids (nombres de países en inglés) a nombres en castellano
 mapa_base$ID <- lapply(mapa_base$ID, function(id) {
   country_a_pais[[id]]
@@ -571,24 +573,26 @@ ui <- navbarPage(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
     ),
-    leafletOutput("mapa_paises", height = 500),
-    absolutePanel(id = "controles", top = 150, left = 20, width = 120,
-      selectInput("temp_map", "Temporada", choices=ANYO_DATOS_MAX:ANYO_DATOS_MIN),
-      selectInput("categ_map", "Categoría",
-                  choices=c(NOMBRE_CATEG_TODAS, NOMBRE_CATEG_M, NOMBRE_CATEG_F))
-    ),
-    absolutePanel(id = "panel_pais_selec", top = 70, right = 20, width = 250,
-      shinydashboard::box(width = 12, solidHeader = TRUE,
-        h4(textOutput("pais_selec")),
-        textOutput("texto_pais_selec")
+    div(id = "contenedor_mapa",
+      leafletOutput("mapa_paises", height = "100%", width = "100%"),
+      absolutePanel(id = "controles", top = 100, left = 20, width = 120,
+                    selectInput("temp_map", "Temporada", choices=ANYO_DATOS_MAX:ANYO_DATOS_MIN),
+                    selectInput("categ_map", "Categoría",
+                                choices=c(NOMBRE_CATEG_TODAS, NOMBRE_CATEG_M, NOMBRE_CATEG_F))
+      ),
+      absolutePanel(id = "panel_pais_selec", top = 20, right = 20, width = 250,
+                    shinydashboard::box(width = 12, solidHeader = TRUE,
+                                        h4(textOutput("pais_selec")),
+                                        textOutput("texto_pais_selec")
+                    )
+      ),
+      absolutePanel(id = "panel_top_paises", bottom = 20, right = 20, width = 200,
+                    shinydashboard::box(width = 12, solidHeader = TRUE,
+                                        h3("Top"),
+                                        tableOutput("top_paises")
+                    )
       )
     ),
-    absolutePanel(id = "panel_top_paises", bottom = 30, right = 20, width = 200,
-      shinydashboard::box(width = 12, solidHeader = TRUE,
-        h3("Top"),
-        tableOutput("top_paises")
-      )
-    )
   )
 )
 
