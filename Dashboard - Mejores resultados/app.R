@@ -363,6 +363,10 @@ mapa_base$pruebas <- list(rep(c(), nrow(mapa_base)))
 
 ui <- navbarPage(
   "Mejores resultados",
+  theme = bs_theme(),
+  header = tags$head(
+    tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
+  ),
   tabPanel("Por pruebas",
     fluidRow(
       column(3,
@@ -374,225 +378,239 @@ ui <- navbarPage(
     ),
     tabsetPanel(
       tabPanel("Velocidad",
-        value_box(
-          title="60 metros",
-          value=textOutput("m60")
-        ),
-        value_box(
-          title="100 metros",
-          value=textOutput("m100")
-        ),
-        value_box(
-          title="200 metros",
-          value=textOutput("m200")
-        ),
-        value_box(
-          title="400 metros",
-          value=textOutput("m400")
+        layout_column_wrap(width = 1/3,
+          value_box(
+            title="60 metros",
+            value=textOutput("m60")
+          ),
+          value_box(
+            title="100 metros",
+            value=textOutput("m100")
+          ),
+          value_box(
+            title="200 metros",
+            value=textOutput("m200")
+          ),
+          value_box(
+            title="400 metros",
+            value=textOutput("m400")
+          )
         )
       ),
       tabPanel("Vallas",
-        value_box(
-          title="60 metros vallas",
-          value=textOutput("m60h")
-        ),
-        conditionalPanel(
-          condition = "input.categ_pr == \"Femenina\"", #No permite usar NOMBRE_CATEG_F aqui
+        layout_column_wrap(width = 1/3,
           value_box(
-            title="100 metros vallas",
-            value=textOutput("m100h")
-          )
-        ),
-        conditionalPanel(
-          condition = "input.categ_pr == \"Masculina\"", # No permite usar NOMBRE_CATEG_M aqui
+            title="60 metros vallas",
+            value=textOutput("m60h")
+          ),
+          conditionalPanel(
+            condition = "input.categ_pr == \"Femenina\"", #No permite usar NOMBRE_CATEG_F aqui
+            value_box(
+              title="100 metros vallas",
+              value=textOutput("m100h")
+            )
+          ),
+          conditionalPanel(
+            condition = "input.categ_pr == \"Masculina\"", # No permite usar NOMBRE_CATEG_M aqui
+            value_box(
+              title="110 metros vallas",
+              value=textOutput("m110h")
+            )
+          ),
           value_box(
-            title="110 metros vallas",
-            value=textOutput("m110h")
+            title="400 metros vallas",
+            value=textOutput("m400h")
           )
-        ),
-        value_box(
-          title="400 metros vallas",
-          value=textOutput("m400h")
         )
       ),
       tabPanel("Relevos",
-        value_box(
-          title="4x100 metros",
-          value=textOutput("m4x100")
-        ),
-        value_box(
-          title="4x200 metros",
-          value=textOutput("m4x200")
-        ),
-        value_box(
-          title="4x400 metros",
-          value=textOutput("m4x400")
+        layout_column_wrap(width = 1/3,
+          value_box(
+            title="4x100 metros",
+            value=textOutput("m4x100")
+          ),
+          value_box(
+            title="4x200 metros",
+            value=textOutput("m4x200")
+          ),
+          value_box(
+            title="4x400 metros",
+            value=textOutput("m4x400")
+          )
         )
       ),
       tabPanel("Media distancia y fondo",
-        value_box(
-          title="800 metros",
-          value=textOutput("m800")
-        ),
-        value_box(
-          title="1.000 metros",
-          value=textOutput("m1000")
-        ),
-        value_box(
-          title="1.500 metros",
-          value=textOutput("m1500")
-        ),
-        value_box(
-          title="1 milla",
-          value=textOutput("m1609")
-        ),
-        value_box(
-          title="3.000 metros",
-          value=textOutput("m3000")
-        ),
-        value_box(
-          title="5.000 metros",
-          value=textOutput("m5000")
-        ),
-        value_box(
-          title="10.000 metros",
-          value=textOutput("m10000")
-        ),
-        value_box(
-          title="2.000 metros obstáculos",
-          value=textOutput("m2000s")
-        ),
-        value_box(
-          title="3.000 metros obstáculos",
-          value=textOutput("m3000s")
+        layout_column_wrap(width = 1/5,
+          value_box(
+            title="800 metros",
+            value=textOutput("m800")
+          ),
+          value_box(
+            title="1.000 metros",
+            value=textOutput("m1000")
+          ),
+          value_box(
+            title="1.500 metros",
+            value=textOutput("m1500")
+          ),
+          value_box(
+            title="1 milla",
+            value=textOutput("m1609")
+          ),
+          value_box(
+            title="3.000 metros",
+            value=textOutput("m3000")
+          ),
+          value_box(
+            title="5.000 metros",
+            value=textOutput("m5000")
+          ),
+          value_box(
+            title="10.000 metros",
+            value=textOutput("m10000")
+          ),
+          value_box(
+            title="2.000 metros obstáculos",
+            value=textOutput("m2000s")
+          ),
+          value_box(
+            title="3.000 metros obstáculos",
+            value=textOutput("m3000s")
+          )
         )
       ),
       tabPanel("Saltos",
-        value_box(
-          title="Salto de longitud",
-          value=textOutput("longitud")
-        ),
-        value_box(
-          title="Triple salto",
-          value=textOutput("triple")
-        ),
-        value_box(
-          title="Salto en altura",
-          value=textOutput("altura")
-        ),
-        value_box(
-          title="Salto con pértiga",
-          value=textOutput("pertiga")
+        layout_column_wrap(width = 1/3,
+          value_box(
+            title="Salto de longitud",
+            value=textOutput("longitud")
+          ),
+          value_box(
+            title="Triple salto",
+            value=textOutput("triple")
+          ),
+          value_box(
+            title="Salto en altura",
+            value=textOutput("altura")
+          ),
+          value_box(
+            title="Salto con pértiga",
+            value=textOutput("pertiga")
+          )
         )
       ),
       tabPanel("Lanzamientos",
-        value_box(
-          title="Lanzamiento de peso",
-          value=textOutput("peso")
-        ),
-        value_box(
-          title="Lanzamiento de disco",
-          value=textOutput("disco")
-        ),
-        value_box(
-          title="Lanzamiento de martillo",
-          value=textOutput("martillo")
-        ),
-        value_box(
-          title="Lanzamiento de jabalina",
-          value=textOutput("jabalina")
+        layout_column_wrap(width = 1/3,
+          value_box(
+            title="Lanzamiento de peso",
+            value=textOutput("peso")
+          ),
+          value_box(
+            title="Lanzamiento de disco",
+            value=textOutput("disco")
+          ),
+          value_box(
+            title="Lanzamiento de martillo",
+            value=textOutput("martillo")
+          ),
+          value_box(
+            title="Lanzamiento de jabalina",
+            value=textOutput("jabalina")
+          )
         )
       ),
       tabPanel("Ruta",
-        value_box(
-          title="1 milla",
-          value=textOutput("m1609r")
-        ),
-        value_box(
-          title="5 kilómetros",
-          value=textOutput("m5000r")
-        ),
-        value_box(
-          title="10 kilómetros",
-          value=textOutput("m10000r")
-        ),
-        value_box(
-          title="20 kilómetros",
-          value=textOutput("m20000r")
-        ),
-        value_box(
-          title="Media maratón",
-          value=textOutput("m21097r")
-        ),
-        value_box(
-          title="Maratón",
-          value=textOutput("m42195r")
+        layout_column_wrap(width = 1/3,
+          value_box(
+            title="1 milla",
+            value=textOutput("m1609r")
+          ),
+          value_box(
+            title="5 kilómetros",
+            value=textOutput("m5000r")
+          ),
+          value_box(
+            title="10 kilómetros",
+            value=textOutput("m10000r")
+          ),
+          value_box(
+            title="20 kilómetros",
+            value=textOutput("m20000r")
+          ),
+          value_box(
+            title="Media maratón",
+            value=textOutput("m21097r")
+          ),
+          value_box(
+            title="Maratón",
+            value=textOutput("m42195r")
+          )
         )
       ),
       tabPanel("Marcha",
-        value_box(
-          title="5 kilómetros marcha",
-          value=textOutput("m5000rw")
-        ),
-        value_box(
-          title="20 kilómetros marcha",
-          value=textOutput("m20000rw")
-        ),
-        value_box(
-          title="35 kilómetros marcha",
-          value=textOutput("m35000rw")
-        ),
-        value_box(
-          title="50 kilómetros marcha",
-          value=textOutput("m50000rw")
+        layout_column_wrap(width = 1/3,
+          value_box(
+            title="5 kilómetros marcha",
+            value=textOutput("m5000rw")
+          ),
+          value_box(
+            title="20 kilómetros marcha",
+            value=textOutput("m20000rw")
+          ),
+          value_box(
+            title="35 kilómetros marcha",
+            value=textOutput("m35000rw")
+          ),
+          value_box(
+            title="50 kilómetros marcha",
+            value=textOutput("m50000rw")
+          )
         )
       ),
       tabPanel("Eventos combinados",
-        conditionalPanel(
-          condition = "input.categ_pr == \"Femenina\"", #No permite usar NOMBRE_CATEG_F aqui
+        layout_column_wrap(width = 1/3,
+          conditionalPanel(
+            condition = "input.categ_pr == \"Femenina\"", #No permite usar NOMBRE_CATEG_F aqui
+            value_box(
+              title="Pentatlón",
+              value=textOutput("pentatlon")
+            )
+          ),  
           value_box(
-            title="Pentatlón",
-            value=textOutput("pentatlon")
+            title="Heptatlón",
+            value=textOutput("heptatlon")
+          ),
+          conditionalPanel(
+            condition = "input.categ_pr == \"Masculina\"", #No permite usar NOMBRE_CATEG_M aqui
+            value_box(
+              title="Decatlón",
+              value=textOutput("decatlon")
+            )
           )
-        ),  
-        value_box(
-          title="Heptatlón",
-          value=textOutput("heptatlon")
-        ),
-        conditionalPanel(
-          condition = "input.categ_pr == \"Masculina\"", #No permite usar NOMBRE_CATEG_M aqui
-          value_box(
-            title="Decatlón",
-            value=textOutput("decatlon")
-          )
-        ),
+        )
       )
     )
   ),
   tabPanel("Mejores países",
-    tags$head(
-      tags$link(rel = "stylesheet", type = "text/css", href = "style.css")
+    leafletOutput("mapa_paises", height= "85vh"),
+    absolutePanel(id = "controles", top = "30vh", left = "3vh", width = "9vw",
+                  selectInput("temp_map", "Temporada",
+                              choices=ANYO_DATOS_MAX:ANYO_DATOS_MIN),
+                  selectInput("categ_map", "Categoría",
+                              choices=c(NOMBRE_CATEG_TODAS, NOMBRE_CATEG_M, NOMBRE_CATEG_F))
     ),
-    div(id = "contenedor_mapa",
-      leafletOutput("mapa_paises", height = "100%", width = "100%"),
-      absolutePanel(id = "controles", top = 100, left = 20, width = 120,
-                    selectInput("temp_map", "Temporada", choices=ANYO_DATOS_MAX:ANYO_DATOS_MIN),
-                    selectInput("categ_map", "Categoría",
-                                choices=c(NOMBRE_CATEG_TODAS, NOMBRE_CATEG_M, NOMBRE_CATEG_F))
-      ),
-      absolutePanel(id = "panel_pais_selec", top = 20, right = 20, width = 250,
-                    shinydashboard::box(width = 12, solidHeader = TRUE,
-                                        h4(textOutput("pais_selec")),
-                                        textOutput("texto_pais_selec")
-                    )
-      ),
-      absolutePanel(id = "panel_top_paises", bottom = 20, right = 20, width = 200,
-                    shinydashboard::box(width = 12, solidHeader = TRUE,
-                                        h3("Top"),
-                                        tableOutput("top_paises")
-                    )
+    absolutePanel(id = "panel_pais_selec", top = "13vh", right = "3vh", width = "22vw",
+      shinydashboard::box(width = 12, solidHeader = TRUE,
+        h4(textOutput("pais_selec")),
+        textOutput("texto_pais_selec")
       )
     ),
+    absolutePanel(id = "panel_top_paises", bottom = "3vh", right = "3vh", width = "20vw",
+      shinydashboard::box(width = 12, solidHeader = TRUE,
+        h3("Top"),
+        tableOutput("top_paises")
+      )
+    )
   )
 )
 
