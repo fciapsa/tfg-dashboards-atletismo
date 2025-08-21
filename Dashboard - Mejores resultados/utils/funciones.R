@@ -20,6 +20,11 @@ mejorMarca <- function(df) {
   df_temp$mark
 }
 
+mejorAtleta <- function(df) {
+  df_temp <- slice_max(df, df$results_score, n = 1, with_ties = FALSE)
+  df_temp$competitor
+}
+
 mejoresPaises <- function(df) {
   unique(slice_max(df, df$results_score, with_ties = TRUE)$nat)
 }

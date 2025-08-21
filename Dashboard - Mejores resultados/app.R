@@ -24,8 +24,7 @@ TEXTO_INICIAL_PANEL_SELEC <- "Haz click en un país para ver en qué pruebas es 
 
 #Conjunto de datos
 df_todo <- read_csv("datos/csvs/world-athletics_all-time-top-lists_podado.csv", 
-                    col_types = cols(results_score = col_integer(), 
-                                     date_of_birth = col_date(format = "%Y-%m-%d"), 
+                    col_types = cols(results_score = col_integer(),
                                      date = col_date(format = "%Y-%m-%d"), 
                                      age = col_double()))
 
@@ -68,19 +67,19 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="60 metros",
-            value=textOutput("m60")
+            value=htmlOutput("m60")
           ),
           value_box(
             title="100 metros",
-            value=textOutput("m100")
+            value=htmlOutput("m100")
           ),
           value_box(
             title="200 metros",
-            value=textOutput("m200")
+            value=htmlOutput("m200")
           ),
           value_box(
             title="400 metros",
-            value=textOutput("m400")
+            value=htmlOutput("m400")
           )
         )
       ),
@@ -88,25 +87,25 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="60 metros vallas",
-            value=textOutput("m60h")
+            value=htmlOutput("m60h")
           ),
           conditionalPanel(
             condition = "input.categ_pr == \"Femenina\"", #No permite usar NOMBRE_CATEG_F aqui
             value_box(
               title="100 metros vallas",
-              value=textOutput("m100h")
+              value=htmlOutput("m100h")
             )
           ),
           conditionalPanel(
             condition = "input.categ_pr == \"Masculina\"", # No permite usar NOMBRE_CATEG_M aqui
             value_box(
               title="110 metros vallas",
-              value=textOutput("m110h")
+              value=htmlOutput("m110h")
             )
           ),
           value_box(
             title="400 metros vallas",
-            value=textOutput("m400h")
+            value=htmlOutput("m400h")
           )
         )
       ),
@@ -114,15 +113,15 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="4x100 metros",
-            value=textOutput("m4x100")
+            value=htmlOutput("m4x100")
           ),
           value_box(
             title="4x200 metros",
-            value=textOutput("m4x200")
+            value=htmlOutput("m4x200")
           ),
           value_box(
             title="4x400 metros",
-            value=textOutput("m4x400")
+            value=htmlOutput("m4x400")
           )
         )
       ),
@@ -130,39 +129,39 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/5,
           value_box(
             title="800 metros",
-            value=textOutput("m800")
+            value=htmlOutput("m800")
           ),
           value_box(
             title="1.000 metros",
-            value=textOutput("m1000")
+            value=htmlOutput("m1000")
           ),
           value_box(
             title="1.500 metros",
-            value=textOutput("m1500")
+            value=htmlOutput("m1500")
           ),
           value_box(
             title="1 milla",
-            value=textOutput("m1609")
+            value=htmlOutput("m1609")
           ),
           value_box(
             title="3.000 metros",
-            value=textOutput("m3000")
+            value=htmlOutput("m3000")
           ),
           value_box(
             title="5.000 metros",
-            value=textOutput("m5000")
+            value=htmlOutput("m5000")
           ),
           value_box(
             title="10.000 metros",
-            value=textOutput("m10000")
+            value=htmlOutput("m10000")
           ),
           value_box(
             title="2.000 metros obstáculos",
-            value=textOutput("m2000s")
+            value=htmlOutput("m2000s")
           ),
           value_box(
             title="3.000 metros obstáculos",
-            value=textOutput("m3000s")
+            value=htmlOutput("m3000s")
           )
         )
       ),
@@ -170,19 +169,19 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="Salto de longitud",
-            value=textOutput("longitud")
+            value=htmlOutput("longitud")
           ),
           value_box(
             title="Triple salto",
-            value=textOutput("triple")
+            value=htmlOutput("triple")
           ),
           value_box(
             title="Salto en altura",
-            value=textOutput("altura")
+            value=htmlOutput("altura")
           ),
           value_box(
             title="Salto con pértiga",
-            value=textOutput("pertiga")
+            value=htmlOutput("pertiga")
           )
         )
       ),
@@ -190,19 +189,19 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="Lanzamiento de peso",
-            value=textOutput("peso")
+            value=htmlOutput("peso")
           ),
           value_box(
             title="Lanzamiento de disco",
-            value=textOutput("disco")
+            value=htmlOutput("disco")
           ),
           value_box(
             title="Lanzamiento de martillo",
-            value=textOutput("martillo")
+            value=htmlOutput("martillo")
           ),
           value_box(
             title="Lanzamiento de jabalina",
-            value=textOutput("jabalina")
+            value=htmlOutput("jabalina")
           )
         )
       ),
@@ -210,27 +209,27 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="1 milla",
-            value=textOutput("m1609r")
+            value=htmlOutput("m1609r")
           ),
           value_box(
             title="5 kilómetros",
-            value=textOutput("m5000r")
+            value=htmlOutput("m5000r")
           ),
           value_box(
             title="10 kilómetros",
-            value=textOutput("m10000r")
+            value=htmlOutput("m10000r")
           ),
           value_box(
             title="20 kilómetros",
-            value=textOutput("m20000r")
+            value=htmlOutput("m20000r")
           ),
           value_box(
             title="Media maratón",
-            value=textOutput("m21097r")
+            value=htmlOutput("m21097r")
           ),
           value_box(
             title="Maratón",
-            value=textOutput("m42195r")
+            value=htmlOutput("m42195r")
           )
         )
       ),
@@ -238,19 +237,19 @@ ui <- navbarPage(
         layout_column_wrap(width = 1/3,
           value_box(
             title="5 kilómetros marcha",
-            value=textOutput("m5000rw")
+            value=htmlOutput("m5000rw")
           ),
           value_box(
             title="20 kilómetros marcha",
-            value=textOutput("m20000rw")
+            value=htmlOutput("m20000rw")
           ),
           value_box(
             title="35 kilómetros marcha",
-            value=textOutput("m35000rw")
+            value=htmlOutput("m35000rw")
           ),
           value_box(
             title="50 kilómetros marcha",
-            value=textOutput("m50000rw")
+            value=htmlOutput("m50000rw")
           )
         )
       ),
@@ -260,18 +259,18 @@ ui <- navbarPage(
             condition = "input.categ_pr == \"Femenina\"", #No permite usar NOMBRE_CATEG_F aqui
             value_box(
               title="Pentatlón",
-              value=textOutput("pentatlon")
+              value=htmlOutput("pentatlon")
             )
           ),  
           value_box(
             title="Heptatlón",
-            value=textOutput("heptatlon")
+            value=htmlOutput("heptatlon")
           ),
           conditionalPanel(
             condition = "input.categ_pr == \"Masculina\"", #No permite usar NOMBRE_CATEG_M aqui
             value_box(
               title="Decatlón",
-              value=textOutput("decatlon")
+              value=htmlOutput("decatlon")
             )
           )
         )
@@ -310,12 +309,13 @@ server <- function(input, output, session) {
     filtrarPorCategoria(df_temp, input$categ_pr)
   })
   
-  #Definción común a todos los textOutputs
+  #Definción común a todos los htmlOutputs
   lapply(keys(output_a_prueba), function(id) {
-    output[[id]] <- renderText({
+    output[[id]] <- renderUI({
       df_temp <- filtrarPorPrueba(df_pr(), output_a_prueba[[id]])
-      if(nrow(df_temp) == 0) return("Sin datos")
-      mejorMarca(df_temp)
+      if(nrow(df_temp) == 0)
+        return(HTML("Sin datos"))
+      HTML(paste(mejorMarca(df_temp), h6(mejorAtleta(df_temp)), sep = '<br/>'))
     })
   })
   
