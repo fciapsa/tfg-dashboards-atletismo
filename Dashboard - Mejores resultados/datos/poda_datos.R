@@ -16,7 +16,8 @@ df_original <- read_csv("datos/csvs/world-athletics_all-time-top-lists.csv",
 
 # Descartar columnas redundantes
 cols_redudantes <- c("all_time_rank", "event_rank", "pos", "wind",
-                           "mark_details", "year_of_birth")
+                     "mark_details", "year_of_birth", "event", "category",
+                     "date_of_birth", "venue", "age_category")
 df_podado <- select(df_original, -all_of(cols_redudantes))
 
 # Descartar observaciones sin valor para results_score
