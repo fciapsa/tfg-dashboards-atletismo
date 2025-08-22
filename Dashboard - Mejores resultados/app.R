@@ -21,6 +21,9 @@ NOMBRE_CATEG_F <- "Femenina"
 NOMBRE_CATEG_TODAS <- "Todas"
 
 TEXTO_INICIAL_PANEL_SELEC <- "Haz click en un país para ver en qué pruebas es el mejor"
+EXPLICACION_TAB_PAISES <- sprintf("El país recibe un punto por cada prueba en la que un atleta de
+su nacionalidad obtuvo la mejor marca de la temporada. Si la categoría es \"%s\", solo se
+considera al mejor de todas las categorías.", NOMBRE_CATEG_TODAS)
 
 #Conjunto de datos
 df_todo <- read_csv("datos/csvs/world-athletics_all-time-top-lists_podado.csv", 
@@ -277,7 +280,10 @@ ui <- navbarPage(
       )
     )
   ),
-  tabPanel("Mejores países",
+  tabPanel(
+    title = list("Mejores países",
+      tooltip(bsicons::bs_icon("info-circle", title = ""), EXPLICACION_TAB_PAISES)
+    ),
     leafletOutput("mapa_paises", height= "85vh"),
     absolutePanel(id = "controles", top = "30vh", left = "3vh", width = "10vw",
                   selectInput("temp_map", "Temporada",
