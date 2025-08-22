@@ -4,7 +4,6 @@ author: "Flavius Abel Ciapsa"
 output: 
   flexdashboard::flex_dashboard:
     orientation: rows
-    social: menu
     source: embed
 ---
 
@@ -177,6 +176,8 @@ El motivo por el que se añaden estos nuevos valores para monitorizarlos como pa
 
 # Factores heterogéneos
 
+### Panel de ejemplo con las características de un atleta
+
 ## Sexo y origen étnico
 
 ### Sexo
@@ -218,7 +219,7 @@ valueBox(tipo_deporte,
 
 ### Texto descriptivo {.no-title}
 
-El ABP es una herramienta útil para detectar posibles casos de dopaje gracias a que la variabilidad de los valores de los biomarcadores es muy limitada para un individuo concreto. Sin embargo, la **variabilidad** es mucho mayor **entre individuos diferentes**, lo cual hace necesario que en el modelo estadístico se tengan en cuenta los principales factores que provocan esa heterogeneidad.
+El ABP es una herramienta útil para detectar posibles casos de dopaje gracias a que la variabilidad de los valores de los biomarcadores es muy limitada para un individuo concreto. Por ejemplo, la concentración de hemoglobina de una persona varía en un rango estrecho en comparación con el rango de valores que podemos encontrar si analizamos a personas diferentes. Esta **variabilidad entre individuos diferentes** hace necesario que en el modelo estadístico se tengan en cuenta los principales factores que provocan esa heterogeneidad, para ajustar los límites esperados.
 
 Entre estos factores se encuentran el sexo, la edad, el origen étnico (genotipo) y el tipo de deporte practicado (resistencia o no resistencia). Como ejemplo, una de las variables cuyos valores se ven influidos por el sexo es el hematocrito (porcentaje del volumen total de sangre representado por los glóbulos rojos), que presenta un valor medio más elevado en hombres que en mujeres [5].
 
