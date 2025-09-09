@@ -12,4 +12,4 @@ Para su ejecución local, se recomienda el uso de **RStudio** como IDE, ya que p
 
  - `www`: contiene un fichero de estilo con unas mínimas definiciones de CSS para la interfaz de usuario.
 
- - `rsconnect`: directorio autogenerado con información relativa al despliegue en línea de la aplicación utilizando la plataforma de [shinyapps.io](shinyapps.io).
+ - `rsconnect`: directorio autogenerado con información relativa al despliegue en línea de la aplicación utilizando la plataforma de [shinyapps.io](https://www.shinyapps.io/).
